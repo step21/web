@@ -161,10 +161,138 @@ def keywords(request):
         response['keywords'] = keywords
     except Exception as e:
         print(e)
-        response['message'] = 'could not find a title'
+        response['message'] = 'could not find keywords'
 
     return JsonResponse(response)
 
+# gets orga name of url
+@ratelimit(key='ip', rate='10/m', method=ratelimit.UNSAFE, block=True)
+def orga(request):
+    response = {}
+
+    url = request.GET.get('url')
+    urlVal = URLValidator()
+    try:
+        urlVal(url)
+    except ValidationError, e:
+        response['message'] = 'invalid arguments'
+        return JsonResponse(response)
+
+    if url.lower()[:19] != 'https://github.com/':
+        response['message'] = 'invalid arguments'
+        return JsonResponse(response)
+
+    try:
+        html_response = requests.get(url)
+    except ValidationError, e:
+        response['message'] = 'could not pull back remote response'
+        return JsonResponse(response)
+
+    title = None
+    try:
+        soup = BeautifulSoup(html_response.text, 'html.parser')
+
+        eles = soup.findAll("span", { "class" : "author" })
+        if len(eles):
+            orga = eles[0].text
+
+    except ValidationError, e:
+        response['message'] = 'could not parse html'
+        return JsonResponse(response)
+
+    try:
+        response['orga'] = orga.replace('\n', '').strip()
+    except Exception as e:
+        print(e)
+        response['message'] = 'could not find orga'
+
+    return JsonResponse(response)
+
+# gets repo name
+@ratelimit(key='ip', rate='10/m', method=ratelimit.UNSAFE, block=True)
+def repo(request):
+    response = {}
+
+    url = request.GET.get('url')
+    urlVal = URLValidator()
+    try:
+        urlVal(url)
+    except ValidationError, e:
+        response['message'] = 'invalid arguments'
+        return JsonResponse(response)
+
+    if url.lower()[:19] != 'https://github.com/':
+        response['message'] = 'invalid arguments'
+        return JsonResponse(response)
+
+    try:
+        html_response = requests.get(url)
+    except ValidationError, e:
+        response['message'] = 'could not pull back remote response'
+        return JsonResponse(response)
+
+    title = None
+    try:
+        soup = BeautifulSoup(html_response.text, 'html.parser')
+
+        eles = soup.findAll('a', attrs={ "data-pjax" : "#js-repo-pjax-container" })
+        if len(eles):
+            repo = eles[0].text
+
+    except ValidationError, e:
+        response['message'] = 'could not parse html'
+        return JsonResponse(response)
+
+    try:
+        response['repo'] = repo.replace('\n', '').strip()
+    except Exception as e:
+        print(e)
+        response['message'] = 'could not find a repo'
+
+    return JsonResponse(response)
+
+# gets issue number
+@ratelimit(key='ip', rate='10/m', method=ratelimit.UNSAFE, block=True)
+def issue_number(request):
+    response = {}
+
+    url = request.GET.get('url')
+    urlVal = URLValidator()
+    try:
+        urlVal(url)
+    except ValidationError, e:
+        response['message'] = 'invalid arguments'
+        return JsonResponse(response)
+
+    if url.lower()[:19] != 'https://github.com/':
+        response['message'] = 'invalid arguments'
+        return JsonResponse(response)
+
+    try:
+        html_response = requests.get(url)
+    except ValidationError, e:
+        response['message'] = 'could not pull back remote response'
+        return JsonResponse(response)
+
+    title = None
+    try:
+        soup = BeautifulSoup(html_response.text, 'html.parser')
+
+        eles = soup.findAll("span", attrs={ "class" : "gh-header-number" })
+        if len(eles):
+            issue_number = eles[0].text.strip('#')
+
+    except ValidationError, e:
+        response['message'] = 'could not parse html'
+        return JsonResponse(response)
+
+    try:
+        response['issue_number'] = issue_number.replace('\n', '').strip()
+    except Exception as e:
+        print(e)
+        response['message'] = 'could not find issue number'
+
+    return JsonResponse(response)
 
 def normalizeURL(url):
     if url[-1] == '/':

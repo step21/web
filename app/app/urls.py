@@ -77,6 +77,9 @@ urlpatterns = [
     url(r'^sync/get_issue_title?', dashboard.helpers.title, name='helpers_title'),
     url(r'^sync/get_amount?', dashboard.helpers.amount, name='helpers_amount'),
     url(r'^sync/get_issue_keywords?', dashboard.helpers.keywords, name='helpers_keywords'),
+    url(r'^sync/get_issue_orga?', dashboard.helpers.orga, name='helpers_orga'),
+    url(r'^sync/get_issue_repo?', dashboard.helpers.repo, name='helpers_repo'),
+    url(r'^sync/get_issue_number?', dashboard.helpers.issue_number, name='helpers_issue_number'),
     url(r'^sync/search_save?', dashboard.views.save_search, name='save_search'),
 
     # brochureware views

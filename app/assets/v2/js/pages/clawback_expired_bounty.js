@@ -81,7 +81,7 @@ window.onload = function(){
                             _alert({ message: "Clawback submitted to web3." },'info');
                             setTimeout(function(){
                                 mixpanel.track("Clawback Bounty Success", {});
-                                document.location.href= "/funding/details?url="+issueURL;
+                                document.location.href= "/funding/details/" + orga + "/" + repo + "/issues/" + issue_number
                             },1000);
 
                         };

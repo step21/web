@@ -74,7 +74,7 @@ window.onload = function(){
                             _alert({ message: "Submitted transaction to web3." }, 'info');
                             setTimeout(function(){
                                 mixpanel.track("Process Bounty Success", {});
-                                document.location.href= "/funding/details?url="+issueURL;
+                                document.location.href= "/funding/details/" + orga + "/" + repo + "/issues/" + issue_umber
                             },1000);
 
                         };

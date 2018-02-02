@@ -28,7 +28,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from app.github import get_user as get_github_user
 from app.utils import ellipses, sync_profile
-from dashboard.helpers import normalizeURL, process_bounty_changes, process_bounty_details
+from dashboard.helpers import normalizeURL, process_bounty_changes, process_bounty_details, orga, repo, issue_number
 from dashboard.models import Bounty, BountySyncRequest, Profile, Subscription, Tip
 from dashboard.notifications import maybe_market_tip_to_github, maybe_market_tip_to_slack
 from gas.utils import recommend_min_gas_price_to_confirm_in_time
@@ -190,7 +190,7 @@ def dashboard(request):
     }
     return TemplateResponse(request, 'dashboard.html', params)
 
-
+@ratelimit(key='ip', rate='2/m', method=ratelimit.UNSAFE, block=True)
 def new_bounty(request):
 
     params = {
@@ -198,6 +198,9 @@ def new_bounty(request):
         'active': 'submit_bounty',
         'title': 'Create Funded Issue',
         'recommend_gas_price': recommend_min_gas_price_to_confirm_in_time(confirm_time_minutes_target),
+        'orga' : orga(request),
+        'repo' : repo(request),
+        'issue_number' : issue_number(request),
     }
 
     return TemplateResponse(request, 'submit_bounty.html', params)

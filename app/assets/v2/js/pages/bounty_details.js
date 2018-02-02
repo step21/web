@@ -272,6 +272,9 @@ var pendingChangesWarning = function(issueURL, last_modified_time_remote, now){
 window.addEventListener('load', function() {
     setTimeout(function(){
         var issueURL = getParam('url');
+        var orga = getParam('orga');
+        var repo = getParam('repo');
+        var issue_number = getParam('issue_number');
         $("#submitsolicitation a").attr('href','/funding/new/?source=' + issueURL)
         var uri = '/api/v0.1/bounties?';
         $.get(uri, function(results){

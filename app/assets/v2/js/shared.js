@@ -337,6 +337,75 @@ var retrieveKeywords = function(){
     });
 };
 
+var retrieveOrga = function() {
+    var ele = $("input[name=issueURL]");
+    var target_ele = $("input[name=orga]");
+    var issue_url = ele.val();
+    if(typeof issue_url == 'undefined'){
+        return;
+    }
+    if(issue_url.length < 5 || issue_url.indexOf('github') == -1){
+        return;
+    }
+    var request_url = '/sync/get_issue_orga?url=' + encodeURIComponent(issue_url);
+    target_ele.addClass('loading');
+    $.get(request_url, function(result){
+        result = sanitizeAPIResults(result);
+        target_ele.removeClass('loading');
+        if(result['orga']){
+            target_ele.val(result['orga']);
+        }
+    }).fail(function(){
+        target_ele.removeClass('loading');
+    });
+};
+
+var retrieveRepo = function() {
+    var ele = $("input[name=issueURL]");
+    var target_ele = $("input[name=repo]");
+    var issue_url = ele.val();
+    if(typeof issue_url == 'undefined'){
+        return;
+    }
+    if(issue_url.length < 5 || issue_url.indexOf('github') == -1){
+        return;
+    }
+    var request_url = '/sync/get_issue_repo?url=' + encodeURIComponent(issue_url);
+    target_ele.addClass('loading');
+    $.get(request_url, function(result){
+        result = sanitizeAPIResults(result);
+        target_ele.removeClass('loading');
+        if(result['repo']){
+            target_ele.val(result['repo']);
+        }
+    }).fail(function(){
+        target_ele.removeClass('loading');
+    });
+};
+
+var retrieveIssueNumber = function() {
+    var ele = $("input[name=issueURL]");
+    var target_ele = $("input[name=issue_number]");
+    var issue_url = ele.val();
+    if(typeof issue_url == 'undefined'){
+        return;
+    }
+    if(issue_url.length < 5 || issue_url.indexOf('github') == -1){
+        return;
+    }
+    var request_url = '/sync/get_issue_number?url=' + encodeURIComponent(issue_url);
+    target_ele.addClass('loading');
+    $.get(request_url, function(result){
+        result = sanitizeAPIResults(result);
+        target_ele.removeClass('loading');
+        if(result['issue_number']){
+            target_ele.val(result['issue_number']);
+        }
+    }).fail(function(){
+        target_ele.removeClass('loading');
+    });
+}
+
 
 //figure out what version of web3 this is
 window.addEventListener('load', function() {

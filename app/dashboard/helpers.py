@@ -188,7 +188,7 @@ def orga(request):
         response['message'] = 'could not pull back remote response'
         return JsonResponse(response)
 
-    title = None
+    orga = None
     try:
         soup = BeautifulSoup(html_response.text, 'html.parser')
 
@@ -231,7 +231,7 @@ def repo(request):
         response['message'] = 'could not pull back remote response'
         return JsonResponse(response)
 
-    title = None
+    repo = None
     try:
         soup = BeautifulSoup(html_response.text, 'html.parser')
 
@@ -274,7 +274,7 @@ def issue_number(request):
         response['message'] = 'could not pull back remote response'
         return JsonResponse(response)
 
-    title = None
+    issue_number = None
     try:
         soup = BeautifulSoup(html_response.text, 'html.parser')
 

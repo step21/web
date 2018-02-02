@@ -28,19 +28,26 @@ $(document).ready(function(){
     if(localStorage['issueURL']){
         $('input[name=issueURL]').val(localStorage['issueURL']);
     }
-    //fetch issue URL related info
+
     $("input[name=amount]").keyup(setUsdAmount);
     $("input[name=amount]").blur(setUsdAmount);
     $("select[name=deonomination]").change(setUsdAmount);
+
+    //fetch issue URL related info
     $("input[name=issueURL]").blur(retrieveTitle);
     $("input[name=issueURL]").blur(retrieveKeywords);
+
 
     if($("input[name=issueURL]").val()!=''){
         retrieveTitle();
         retrieveKeywords();
+        retrieveOrga();
+        retrieveRepo();
+        retrieveIssueNumber();
     }
     $('input[name=issueURL]').focus();
 
+    //FIXME Spelling
     $('select[name=deonomination').select2();
 
     $('#advancedLink a').click(function(e){
@@ -65,6 +72,9 @@ $(document).ready(function(){
         loading_button($(this));
         var githubUsername = $('input[name=githubUsername]').val();
         var issueURL = $('input[name=issueURL]').val();
+        /* var orga = $('')
+        var repo = $('input[name=repo]').val();
+        var issue_umber = $('input[name=issue_number]').val(); */
         var notificationEmail = $('input[name=notificationEmail]').val();
         var amount = $('input[name=amount]').val();
         var tokenAddress = $('select[name=deonomination').val();
@@ -76,8 +86,11 @@ $(document).ready(function(){
         var metadata = {
             issueTitle : $('input[name=title').val(),
             issueKeywords : $('input[name=keywords').val(),
+            orga : getParam('orga'),
+            repo : getParam('repo'),
+            issue_number: getParam('issue_number'),
             tokenName : tokenName,
-            githubUsername : githubUsername,
+            githubUsername : githubUsername, // this is only the submitter
             notificationEmail : notificationEmail,
             experienceLevel : $('select[name=experienceLevel').val(),
             projectLength : $('select[name=projectLength').val(),
@@ -148,7 +161,7 @@ $(document).ready(function(){
                 setTimeout(function(){
                     delete localStorage['issueURL'];
                     mixpanel.track("Submit New Bounty Success", {});
-                    document.location.href= "/funding/details?url="+issueURL;
+                    document.location.href= "/funding/details/" + orga + "/" + repo + "/issues/" + issue_umber
                 },1000);
 
             }

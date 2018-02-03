@@ -31,7 +31,7 @@ $(document).ready(function(){
 
     $("input[name=amount]").keyup(setUsdAmount);
     $("input[name=amount]").blur(setUsdAmount);
-    $("select[name=deonomination]").change(setUsdAmount);
+    $("select[name=denomination]").change(setUsdAmount);
 
     //fetch issue URL related info
     $("input[name=issueURL]").blur(retrieveTitle);
@@ -48,7 +48,7 @@ $(document).ready(function(){
     $('input[name=issueURL]').focus();
 
     //FIXME Spelling
-    $('select[name=deonomination').select2();
+    $('select[name=denomination').select2();
 
     $('#advancedLink a').click(function(e){
         e.preventDefault();
@@ -77,7 +77,7 @@ $(document).ready(function(){
         var issue_umber = $('input[name=issue_number]').val(); */
         var notificationEmail = $('input[name=notificationEmail]').val();
         var amount = $('input[name=amount]').val();
-        var tokenAddress = $('select[name=deonomination').val();
+        var tokenAddress = $('select[name=denomination').val();
         var token = tokenAddressToDetails(tokenAddress);
         var decimals = token['decimals'];
         var tokenName = token['name'];

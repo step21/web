@@ -222,7 +222,7 @@ var load_tokens = function(){
                 if(token['addr']==tokenAddress){
                     select['selected']='selected';
                 }
-                $("select[name=deonomination]").append($('<option>', select))
+                $("select[name=denomination]").append($('<option>', select))
             }
             //if web3, set the values of some form variables
             if (typeof localStorage['amount'] !='undefined'){

@@ -511,7 +511,7 @@ input[type=text].loading{
 #network_status div span{
     color: #4aeba8;
 }
-.submit_bounty select[name=deonomination]{
+.submit_bounty select[name=denomination]{
     text-align: left;
 }
 /* The alert message box */

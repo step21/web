@@ -249,7 +249,7 @@ var retrieveAmount = function(){
     }
 
     var amount = $("input[name=amount]").val();
-    var address = $('select[name=deonomination').val();
+    var address = $('select[name=denomination').val();
     var denomination = tokenAddressToDetails(address)['name'];
     var request_url = '/sync/get_amount?amount='+amount+'&denomination=' + denomination;
     
